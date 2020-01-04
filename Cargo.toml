@@ -1,0 +1,8 @@
+[package]
+name = "agnog-rs"
+version = "0.2.0"
+edition = "2018"
+
+[dependencies]
+clap = "2.33.0"
+encoding = "0.2.33"
