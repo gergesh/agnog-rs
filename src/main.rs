@@ -28,8 +28,13 @@ fn main() {
     let mut buf = [0; ENTRY_SIZE];
 
     while reader.read_exact(&mut buf).is_ok() {
-        let utf8 = ISO_8859_8.decode(&buf, DecoderTrap::Strict)
-            .expect("Could not decode read string.");
+        let utf8 = match ISO_8859_8.decode(&buf, DecoderTrap::Replace) {
+            Ok(s) => s,
+            Err(e) => {
+                eprintln!("Warning: Could not decode string: {}", e);
+                continue;
+            }
+        };
 
         let parts = utf8.split(',');
         let parts = parts.map(|p| p.trim_matches(is_empty));
